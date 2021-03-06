@@ -2,21 +2,30 @@
 
 {% block content %}
     <div class="container mt-4">
-        <form class="form-inline" action="/" method="get">
+        <form class="form-inline" action="add_todo/" method="post">
+            {% csrf_token %}
             <div class="row">
                 <div class="col">
                     <h2>Add Iteams</h2>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="type here....">
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <input type="text" name="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="type here....">
+                    <button type="submit" name="submit" class="btn btn-primary mb-2">Submit</button>
                 </div>
             </div>
         </form>
+
         <div class="row mt-4">
             <div class="col">
+                {% for item in todo_item %}
                 <ul class="list-group">
-                  <li class="list-group-item">Cras justo odio</li>
+                  <li class="list-group-item">{{ item.text }}
+                      <form action="delete_todo/{{ item.id }}/", method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="delete" class="btn btn-danger btn-sm float-right">Delete</button>
+                      </form>
+                  </li>
                 </ul>
-            </div>
+                {% endfor %}
+            </di>
         </div>
     </div>
 {% endblock %}
